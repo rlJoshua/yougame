@@ -1,0 +1,11 @@
+{% block body %}
+        <div>   
+        <h1>Jeux disponible</h1>   
+            <ul>
+                    {% for game in gameList %}
+                        <li>{{ game.title }} {{ game.plateform }} :
+                        {{ game.description }} - {{ game.releaseDate|date('d F Y') }}</li>
+                    {% endfor %}
+            </ul>
+        </div>
+{% endblock %}
