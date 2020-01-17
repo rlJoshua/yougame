@@ -1,0 +1,14 @@
+{% block body %}
+<a href="{{ path('create_editor') }}">Créer un nouvel article</a
+        <div>   
+        <h1>Jeux disponible</h1>   
+            <ul>
+                    {% for editor in editorList %}
+                        {{ editor.society }} -  {{ editor.nationality }} - 
+                        {% for game in editor.games %}
+                               {{ game.title }}
+                        {% endfor %}
+                    {% endfor %}
+            </ul>
+        </div>
+{% endblock %}
