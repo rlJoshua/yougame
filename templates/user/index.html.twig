@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>Membres</h1>
+    {% for user in users %}
+        <li>{{ user.getLastName}} {{ user.getFirstName}} :
+            {{ user.getEmail}} - {{ user.getBirthDate|date('d F Y')}}</li>
+    {% endfor %}
+{% endblock %}
