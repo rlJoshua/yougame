@@ -52,14 +52,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            //$password = $passwordEncoder->encodePassword($user, $user->getPassword());
-            //$user->setPassword($password);
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
             $user->setCreatedAt(new \DateTime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('list_user');
+            return $this->redirectToRoute('app_login');
         }
         return $this->render('user/form.html.twig',[
             "form" => $form->createView(),

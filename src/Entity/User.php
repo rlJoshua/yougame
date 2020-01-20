@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints\Date;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -61,6 +61,16 @@ class User
      * @ORM\Column(type="date")
      */
     private $createdAt;
+
+    /**
+     * @ORM\Column(type="simple_array")
+     */
+    private $role;
+
+    public function __construct()
+    {
+        $this->role = ["ROLE_USER"];
+    }
 
     public function getId(): ?int
     {
@@ -137,5 +147,25 @@ class User
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return $this->role;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->getEmail();
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
