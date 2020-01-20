@@ -4,4 +4,12 @@
 
 {% block body %}
     <h1>Accueil</h1>
+
+    <h3>Jeux disponible</h3>
+    <ul>
+        {% for game in games %}
+            <li>{{ game.title }} {{ game.plateform }} :
+                {{ game.description }} - {{ game.releaseDate|date('d/m/Y') }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

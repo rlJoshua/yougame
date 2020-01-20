@@ -1,14 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YouGame - Editor{% endblock %}
+
 {% block body %}
-<a href="{{ path('create_editor') }}">Créer un nouvel article</a
         <div>   
-        <h1>Jeux disponible</h1>   
+            <h1>Editeurs</h1>
             <ul>
-                    {% for editor in editorList %}
-                        {{ editor.society }} -  {{ editor.nationality }} - 
-                        {% for game in editor.games %}
-                               {{ game.title }}
-                        {% endfor %}
-                    {% endfor %}
+                {% for editor in editorList %}
+                    {{ editor.society }} -  {{ editor.nationality }} <br />
+                {% endfor %}
             </ul>
+            <a href="{{ path('create_editor') }}">Créer un nouvel editeur</a>
         </div>
+
 {% endblock %}

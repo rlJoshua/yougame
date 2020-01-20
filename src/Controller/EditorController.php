@@ -7,6 +7,7 @@ use App\Entity\Editor;
 use App\Form\GameType;
 use App\Form\EditorType;
 use App\Repository\EditorRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,6 +34,7 @@ class EditorController extends AbstractController
 
     /**
      * @Route("/create_editor", name="create_editor")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function createEditor(Request $request): Response{
 
