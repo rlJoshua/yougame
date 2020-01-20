@@ -9,6 +9,8 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +29,8 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user", name="list_user")
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/list_user", name="list_user")
      */
     public function index()
     {
@@ -65,5 +68,7 @@ class UserController extends AbstractController
             "form" => $form->createView(),
         ]);
     }
+
+
 
 }

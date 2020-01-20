@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YouGame - Profile{% endblock %}
+
+{% block body %}
+    <h1>Profil</h1>
+    <div>Nom : {{ user.getLastName }}</div>
+    <div>Prénom : {{ user.getFirstName }}</div>
+    <div>Date de Naissance : {{ user.getBirthDate|date("d/m/Y") }}</div>
+    <div>Adresse e-mail : {{ user.getEmail }}</div>
+    <div>Date d'inscription : {{ user.getCreatedAt|date("d/m/Y") }}</div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1>Modifier le profil</h1>
+    {{form(form)}}
+    <br />
+    <br />
+    <br />
+    <br />
+{% endblock %}

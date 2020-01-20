@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class HomeController extends AbstractController
 {
@@ -12,8 +14,10 @@ class HomeController extends AbstractController
      */
     public function index()
     {
+        $entityManager = $this->getDoctrine()->getManager();
+        $games = $entityManager->getRepository(Game::class)->findAll();
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            "games" => $games,
         ]);
     }
 }

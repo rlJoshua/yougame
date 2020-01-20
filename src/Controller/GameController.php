@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,8 +31,8 @@ class GameController extends AbstractController
 
     /**
      * @Route("/create_game", name="create_game")
+     * @IsGranted("ROLE_ADMIN")
      */
-
      public function createGame(Request $request): Response{
 
         $game = new Game();
