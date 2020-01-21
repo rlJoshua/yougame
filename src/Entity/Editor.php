@@ -77,7 +77,7 @@ class Editor
 
     public function addGame(Game $game): self
     {
-        if (!$this->game->contains($game)) {
+        if (!$this->games->contains($game)) {
             $this->games[] = $game;
             $game->setEditor($this);
         }
@@ -87,8 +87,8 @@ class Editor
 
     public function removeGame(Game $game): self
     {
-        if ($this->game->contains($game)) {
-            $this->game->removeElement($game);
+        if ($this->games->contains($game)) {
+            $this->games->removeElement($game);
             // set the owning side to null (unless already changed)
             if ($game->getEditor() === $this) {
                 $game->setEditor(null);

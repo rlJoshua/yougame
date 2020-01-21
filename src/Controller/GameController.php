@@ -15,9 +15,11 @@ class GameController extends AbstractController
 {
     private $gameRepository;
 
-    public function __construct(GameRepository $gameRepository){
+    public function __construct(GameRepository $gameRepository)
+    {
         $this->gameRepository = $gameRepository;
     }
+
     /**
      * @Route("/game", name="list_game")
      */
@@ -32,25 +34,25 @@ class GameController extends AbstractController
     /**
      * @Route("/create_game", name="create_game")
      * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
+     * @return Response
      */
-     public function createGame(Request $request): Response{
-
+    public function createGame(Request $request): Response
+    {
         $game = new Game();
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
-            $entityManager->flush();       
+            $entityManager->flush();
             return $this->redirectToRoute('list_game');
         }
 
         return $this->render('game/index.html.twig', [
             'form' => $form->createView(),
         ]);
-     }
-
+    }
 
 
 }

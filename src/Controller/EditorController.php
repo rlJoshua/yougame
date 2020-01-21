@@ -26,7 +26,6 @@ class EditorController extends AbstractController
     public function index()
     {
         $editorList = $this->editorRepository->findAll();
-        //dd($editorList);
         return $this->render('editor/list.html.twig', [
             'editorList' => $editorList,
         ]);

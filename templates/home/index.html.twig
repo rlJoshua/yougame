@@ -8,8 +8,11 @@
     <h3>Jeux disponible</h3>
     <ul>
         {% for game in games %}
-            <li>{{ game.title }} {{ game.plateform }} :
-                {{ game.description }} - {{ game.releaseDate|date('d/m/Y') }}</li>
+            <li>{{ game.title }} (
+                {% for platform in game.platforms %}
+                    {{ platform.getName }}
+                {% endfor %}) : <br/>
+                {{ game.description }} <br/> {{ game.releaseDate|date('d M Y') }}</li>
         {% endfor %}
     </ul>
 {% endblock %}

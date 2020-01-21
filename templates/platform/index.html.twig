@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YouGame - Platform{% endblock %}
+
+{% block body %}
+    <h1>Platformes</h1>
+    {% for platform in platforms %}
+        <ul>{{ platform.getName}}</ul>
+    {% endfor %}
+    <a href="{{ path('create_platform') }}">Créer une nouvelle platform</a>
+{% endblock %}
