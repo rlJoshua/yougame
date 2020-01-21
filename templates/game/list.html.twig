@@ -3,15 +3,18 @@
 {% block title %}YouGame - Games{% endblock %}
 
 {% block body %}
-        <div>   
-            <h1>Jeux disponible</h1>
-            <ul>
-                    {% for game in gameList %}
-                        <li>{{ game.title }} {{ game.plateform }} :
-                        {{ game.description }} - {{ game.releaseDate|date('d F Y') }}</li>
-                    {% endfor %}
-            </ul>
+    <div>
+        <h1>Jeux disponible</h1>
+        <ul>
+            {% for game in gameList %}
+                <li>{{ game.title }} (
+                    {% for platform in game.platforms %}
+                        {{ platform.getName }}
+                    {% endfor %}) : <br />
+                    {{ game.description }} <br /> {{ game.releaseDate|date('d M Y') }}</li>
+            {% endfor %}
+        </ul>
 
-            <a href="{{ path('create_game') }}">Créer un nouveau jeu</a>
-        </div>
+        <a href="{{ path('create_game') }}">Créer un nouveau jeu</a>
+    </div>
 {% endblock %}

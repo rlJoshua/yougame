@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,11 +27,10 @@ class Game
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     *  @Assert\NotBlank(message="La plateforme ne peut pas être vide")
-     *  @Assert\Length(max="100", maxMessage="La plateforme est trop longue")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Platform")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $plateform;
+    private $platforms;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -49,6 +50,11 @@ class Game
      */
     private $editor;
 
+    public function __construct()
+    {
+        $this->platforms = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,14 +72,35 @@ class Game
         return $this;
     }
 
-    public function getPlateform(): ?string
+    public function getPlatforms(): ?Collection
     {
-        return $this->plateform;
+        return $this->platforms;
     }
 
-    public function setPlateform(string $plateform): self
+    public function setPlatforms(Collection $platforms): self
     {
-        $this->plateform = $plateform;
+        $this->platforms = $platforms;
+        return $this;
+    }
+
+    public function addPlatform(Platform $platform): self
+    {
+        if (!$this->platforms->contains($platform)) {
+            $this->platforms += $platform;
+            //$game->setEditor($this);
+        }
+        return $this;
+    }
+
+    public function removePlatform(Platform $platform): self
+    {
+        if ($this->platforms->contains($platform)) {
+            $this->platforms->removeElement($platform);
+            // set the owning side to null (unless already changed)
+            /*if ($game->getEditor() === $this) {
+                $game->setEditor(null);
+            }*/
+        }
 
         return $this;
     }
