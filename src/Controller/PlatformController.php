@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Platform;
 use App\Form\PlatformType;
-use App\Repository\PlatformRepository;
 use Doctrine\DBAL\Types\TextType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\PlatformRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class PlatformController extends AbstractController
 {
@@ -55,4 +56,41 @@ class PlatformController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+   /**
+     * @Route("/platform/{id}", name="show_platform")
+     * @param int $id
+     * @param Request $request
+     * @return Response
+     */
+    public function show(int $id, Request $request){
+        $platform = $this->platformRepository->find($id);
+        $form = $this->createForm(PlatformType::class, $platform);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $entityManger = $this->getDoctrine()->getManager();
+            $entityManger->persist($platform);
+            $entityManger->flush();
+        }
+        return $this->render('platform/view.html.twig', [
+            'platform' => $platform,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/delete_platform/{id}", name="delete_platform")
+     * @IsGranted("ROLE_ADMIN")
+     * @ParamConverter("platform", options={"mapping"={"id"="id"}})
+     * @param Platform $platform
+     * @return RedirectResponse
+     */
+    public function deletePlatform(Platform $platform){
+        $entityManger = $this->getDoctrine()->getManager();
+        $entityManger->remove($platform);
+        $entityManger->flush();
+
+        return $this->redirectToRoute("list_platform");
+    }
+
 }

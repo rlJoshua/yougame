@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Platformes</h1>
     {% for platform in platforms %}
-        <ul>{{ platform.getName}}</ul>
+        <ul>{{ platform.getName}} <a href="{{ path("show_platform", {id: platform.id })}}">Détail</a></ul>
     {% endfor %}
     <a href="{{ path('create_platform') }}">Créer une nouvelle platform</a>
 {% endblock %}

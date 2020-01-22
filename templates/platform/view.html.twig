@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YouGame - {{platform.getName}}{% endblock %}
+
+{% block body %}
+
+    <div>
+        <h1>{{platform.getName}}</h1>
+        <br />
+
+
+     
+    </div>
+    {% if is_granted("ROLE_ADMIN")%}
+        <br />
+        <br />
+        <br />
+        <br />
+        <h2>Modifier l'éditeur</h2>
+        {{ form(form) }}
+    {% endif %}
+
+    <a href="{{ path("delete_platform", {id: platform.id })}}">Supprimer cette plateforme </a>
+{% endblock %}
