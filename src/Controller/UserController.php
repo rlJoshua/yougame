@@ -29,7 +29,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="No access! Get out!")
      * @Route("/list_user", name="list_user")
      */
     public function index()

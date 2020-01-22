@@ -25,5 +25,8 @@
         <br />
         <h2>Modifier le Jeu</h2>
         {{ form(form) }}
+        <a class="text-danger" href="{{ path("delete_game", {id: game.id })}}">Supprimer le jeu</a>
     {% endif %}
+
+
 {% endblock %}
