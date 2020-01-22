@@ -32,6 +32,27 @@ class GameController extends AbstractController
     }
 
     /**
+     * @Route("/game/{id}", name="show_game")
+     * @param int $id
+     * @param Request $request
+     * @return Response
+     */
+    public function show(int $id, Request $request){
+        $game = $this->gameRepository->find($id);
+        $form = $this->createForm(GameType::class, $game);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $entityManger = $this->getDoctrine()->getManager();
+            $entityManger->persist($game);
+            $entityManger->flush();
+        }
+        return $this->render('game/view.html.twig', [
+            'game' => $game,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/create_game", name="create_game")
      * @IsGranted("ROLE_ADMIN")
      * @param Request $request
