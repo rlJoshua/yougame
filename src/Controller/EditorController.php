@@ -7,11 +7,12 @@ use App\Entity\Editor;
 use App\Form\GameType;
 use App\Form\EditorType;
 use App\Repository\EditorRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class EditorController extends AbstractController
 {
@@ -53,5 +54,43 @@ class EditorController extends AbstractController
             'form' => $form->createView(),
         ]);
      }
+      /**
+     * @Route("/editor/{id}", name="show_editor")
+     * @param int $id
+     * @param Request $request
+     * @return Response
+     */
+    public function show(int $id, Request $request){
+        $editor = $this->editorRepository->find($id);
+        $form = $this->createForm(EditorType::class, $editor);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $entityManger = $this->getDoctrine()->getManager();
+            $entityManger->persist($editor);
+            $entityManger->flush();
+        }
+        return $this->render('editor/view.html.twig', [
+            'editor' => $editor,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/delete_editor/{id}", name="delete_editor")
+     * @IsGranted("ROLE_ADMIN")
+     * @ParamConverter("editor", options={"mapping"={"id"="id"}})
+     * @param Editor $editor
+     * @return RedirectResponse
+     */
+    public function deleteEditor(Editor $editor){
+        $entityManger = $this->getDoctrine()->getManager();
+        $entityManger->remove($editor);
+        $entityManger->flush();
+
+        return $this->redirectToRoute("list_editor");
+    }
+
+
+     
 
 }

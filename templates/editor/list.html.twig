@@ -7,10 +7,12 @@
             <h1>Editeurs</h1>
             <ul>
                 {% for editor in editorList %}
-                    {{ editor.society }} -  {{ editor.nationality }} <br />
+                    {{ editor.society }} -  {{ editor.nationality }} <a href="{{ path("show_editor", {id: editor.id })}}">Détail</a> <br />
                 {% endfor %}
             </ul>
-            <a href="{{ path('create_editor') }}">Créer un nouvel editeur</a>
         </div>
 
+        {% if is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('create_editor') }}">Créer un nouvel éditeur</a>
+        {% endif %}
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YouGame - {{editor.getSociety}}{% endblock %}
+
+{% block body %}
+
+    <div>
+        <h1>{{editor.getSociety}}</h1>
+        <br />
+        Location : {{ editor.nationality }}
+        <br />
+        Jeux disponible :
+        {% for game in editor.games %}
+            {{ game.getTitle }}
+        {% endfor %}
+
+     
+    </div>
+    {% if is_granted("ROLE_ADMIN")%}
+        <br />
+        <br />
+        <br />
+        <br />
+        <h2>Modifier l'éditeur</h2>
+        {{ form(form) }}
+    {% endif %}
+
+    <a href="{{ path("delete_editor", {id: editor.id })}}">Supprimer cet éditeur</a>
+{% endblock %}
