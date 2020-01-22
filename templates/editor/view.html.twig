@@ -9,7 +9,7 @@
         <br />
         Location : {{ editor.nationality }}
         <br />
-        Jeux disponible :
+        Jeux :
         {% for game in editor.games %}
             {{ game.getTitle }}
         {% endfor %}
@@ -23,7 +23,8 @@
         <br />
         <h2>Modifier l'éditeur</h2>
         {{ form(form) }}
+        <a class="text-danger"href="{{ path("delete_editor", {id: editor.id })}}">Supprimer cet éditeur</a>
     {% endif %}
 
-    <a href="{{ path("delete_editor", {id: editor.id })}}">Supprimer cet éditeur</a>
+
 {% endblock %}
