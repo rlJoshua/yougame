@@ -11,8 +11,7 @@
             <li>{{ game.title }} (
                 {% for platform in game.platforms %}
                     {{ platform.getName }}
-                {% endfor %}) : <br/>
-                {{ game.description }} <br/> {{ game.releaseDate|date('d M Y') }}</li>
+                {% endfor %}) : {{ game.releaseDate|date('d M Y') }} <a href="{{ path("show_game", {id: game.id })}}">Détail</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

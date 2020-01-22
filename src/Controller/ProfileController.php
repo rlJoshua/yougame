@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-use App\Form\UserPofileType;
+use App\Form\UserProfileType;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +28,7 @@ class ProfileController extends AbstractController
     public function index(Request $request)
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserPofileType::class, $user);
+        $form = $this->createForm(UserProfileType::class, $user);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $entityManger = $this->getDoctrine()->getManager();

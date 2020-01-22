@@ -3,5 +3,8 @@
 {% block title %}YouGame - Game{% endblock %}
 
 {% block body %}
-{{ form(form) }}
+    {% if is_granted("ROLE_ADMIN") %}
+        {{ form(form) }}
+    {% endif %}
+
 {% endblock %}

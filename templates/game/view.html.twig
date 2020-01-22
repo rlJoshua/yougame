@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YouGame - {{game.getTitle}}{% endblock %}
+
+{% block body %}
+
+    <div>
+        <h1>{{game.getTitle}}</h1>
+        <br />
+        Description : {{ game.description }}
+        <br />
+        Plateformes disponible :
+        {% for platform in game.platforms %}
+            {{ platform.getName }}
+        {% endfor %}
+
+        <br />
+        Date de sortie : {{ game.releaseDate|date('d M Y') }}
+        <br />
+    </div>
+    {% if is_granted("ROLE_ADMIN")%}
+        <br />
+        <br />
+        <br />
+        <br />
+        <h2>Modifier le Jeu</h2>
+        {{ form(form) }}
+        <a class="text-danger" href="{{ path("delete_game", {id: game.id })}}">Supprimer le jeu</a>
+    {% endif %}
+
+
+{% endblock %}
