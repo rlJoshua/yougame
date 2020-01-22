@@ -7,7 +7,8 @@
         <h1>Jeux disponible</h1>
         <ul>
             {% for game in gameList %}
-                <li>{{ game.title }} : {{ game.releaseDate|date('d M Y') }} <a href="{{ path("show_game", {id: game.id })}}">Détail</a></li>
+                <li>{{ game.title }} : {{ game.releaseDate|date('d M Y') }} <a href="{{ path("show_game", {id: game.id })}}">Détail</a>
+                </li>
             {% endfor %}
         </ul>
         {% if is_granted("ROLE_ADMIN") %}
