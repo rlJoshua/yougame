@@ -6,6 +6,8 @@ use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,7 +39,7 @@ class GameController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function show(int $id, Request $request){
+    public function showGame(int $id, Request $request){
         $game = $this->gameRepository->find($id);
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
@@ -54,7 +56,7 @@ class GameController extends AbstractController
 
     /**
      * @Route("/create_game", name="create_game")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="No access! Get out!")
      * @param Request $request
      * @return Response
      */
@@ -75,5 +77,19 @@ class GameController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/delete_game/{id}", name="delete_game")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="No access! Get out!")
+     * @ParamConverter("game", options={"mapping"={"id"="id"}})
+     * @param Game $game
+     * @return RedirectResponse
+     */
+    public function deleteGame(Game $game){
+        $entityManger = $this->getDoctrine()->getManager();
+        $entityManger->remove($game);
+        $entityManger->flush();
+
+        return $this->redirectToRoute("list_game");
+    }
 
 }
