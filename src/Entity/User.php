@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -67,9 +69,15 @@ class User implements UserInterface
      */
     private $role;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Game", inversedBy="users")
+     */
+    private $favorites;
+
     public function __construct()
     {
         $this->role = ["ROLE_USER"];
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,5 +175,29 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Game $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Game $favorite): self
+    {
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+        }
+
+        return $this;
     }
 }

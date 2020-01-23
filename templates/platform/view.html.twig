@@ -7,9 +7,6 @@
     <div>
         <h1>{{platform.getName}}</h1>
         <br />
-
-
-     
     </div>
     {% if is_granted("ROLE_ADMIN")%}
         <br />
@@ -20,5 +17,5 @@
         {{ form(form) }}
     {% endif %}
 
-    <a href="{{ path("delete_platform", {id: platform.id })}}">Supprimer cette plateforme </a>
+    <a class="text-danger" href="{{ path("delete_platform", {id: platform.id })}}">Supprimer la plateforme </a>
 {% endblock %}

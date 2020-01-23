@@ -9,6 +9,12 @@
     <div>Date de Naissance : {{ user.getBirthDate|date("d/m/Y") }}</div>
     <div>Adresse e-mail : {{ user.getEmail }}</div>
     <div>Date d'inscription : {{ user.getCreatedAt|date("d/m/Y") }}</div>
+    <div>Favoris :
+        <br />
+        {% for game in user.getFavorites %}
+             <li>{{ game.getTitle }}</li>
+        {% endfor %}
+    </div>
     <br />
     <br />
     <br />

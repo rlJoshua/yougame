@@ -50,9 +50,15 @@ class Game
      */
     private $editor;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorites")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->platforms = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,6 +143,33 @@ class Game
     public function setEditor(?Editor $editor): self
     {
         $this->editor = $editor;
+
+        return $this;
+    }
+
+
+
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeFavorite($this);
+        }
 
         return $this;
     }

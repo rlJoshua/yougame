@@ -7,6 +7,7 @@ use App\Entity\Editor;
 use App\Form\GameType;
 use App\Form\EditorType;
 use App\Repository\EditorRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,6 +36,8 @@ class EditorController extends AbstractController
     /**
      * @Route("/create_editor", name="create_editor")
      * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
+     * @return Response
      */
     public function createEditor(Request $request): Response{
 
@@ -60,7 +63,7 @@ class EditorController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function show(int $id, Request $request){
+    public function showEditor(int $id, Request $request){
         $editor = $this->editorRepository->find($id);
         $form = $this->createForm(EditorType::class, $editor);
         $form->handleRequest($request);
