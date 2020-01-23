@@ -3,6 +3,16 @@
 {% block title %}YouGame - Editor{% endblock %}
 
 {% block body %}
-{{ form(form) }}
+        <div>   
+            <h1>Editeurs</h1>
+            <ul>
+                {% for editor in editorList %}
+                    <a href="{{ path("show_editor", {id: editor.id })}}">{{ editor.society }}</a> - {{ editor.nationality }} <br />
+                {% endfor %}
+            </ul>
+        </div>
 
+        {% if is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('create_editor') }}">Créer un nouvel éditeur</a>
+        {% endif %}
 {% endblock %}

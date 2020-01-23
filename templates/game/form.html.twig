@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YouGame - Game{% endblock %}
+
+{% block body %}
+    {% if is_granted("ROLE_ADMIN") %}
+        {{ form(form) }}
+    {% endif %}
+
+{% endblock %}

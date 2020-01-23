@@ -8,10 +8,13 @@
     <h3>Jeux disponible</h3>
     <ul>
         {% for game in games %}
-            <li>{{ game.title }} (
+            <li>
+                <a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a> (
                 {% for platform in game.platforms %}
                     {{ platform.getName }}
-                {% endfor %}) : {{ game.releaseDate|date('d M Y') }} <a href="{{ path("show_game", {id: game.id })}}">Détail</a></li>
+                {% endfor %})
+                : {{ game.releaseDate|date('d M Y') }}
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

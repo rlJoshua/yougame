@@ -3,9 +3,13 @@
 {% block title %}YouGame - User{% endblock %}
 
 {% block body %}
-    <h1>Membres</h1>
-    {% for user in users %}
-        <li>{{ user.getLastName}} {{ user.getFirstName}} :
-            {{ user.getEmail}} - {{ user.getBirthDate|date('d F Y')}}</li>
-    {% endfor %}
+    {% if is_granted("ROLE_ADMIN") %}
+        <h1>Membres</h1>
+        {% for user in users %}
+            <li><a href="{{ path('show_user', {id: user.id }) }}">{{ user.getLastName }} {{ user.getFirstName }}</a>:
+                {{ user.getEmail }} - {{ user.getBirthDate|date('d F Y') }}</li>
+        {% endfor %}
+        <a href="{{ path('register') }}">Ajouter un Utilisateur</a>
+    {% endif %}
+
 {% endblock %}

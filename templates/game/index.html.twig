@@ -1,10 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}YouGame - Game{% endblock %}
+{% block title %}YouGame - Games{% endblock %}
 
 {% block body %}
-    {% if is_granted("ROLE_ADMIN") %}
-        {{ form(form) }}
-    {% endif %}
-
+    <div>
+        <h1>Jeux disponible</h1>
+        <ul>
+            {% for game in gameList %}
+                <li>
+                    <a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a> (
+                    {% for platform in game.platforms %}
+                        {{ platform.getName }}
+                    {% endfor %})
+                    : {{ game.releaseDate|date('d M Y') }}
+                </li>
+            {% endfor %}
+        </ul>
+        {% if is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('create_game') }}">Créer un nouveau jeu</a>
+        {% endif %}
+    </div>
 {% endblock %}

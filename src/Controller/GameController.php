@@ -29,7 +29,7 @@ class GameController extends AbstractController
     public function index()
     {
         $gameList = $this->gameRepository->findAll();
-        return $this->render('game/list.html.twig', [
+        return $this->render('game/index.html.twig', [
             'gameList' => $gameList,
         ]);
     }
@@ -73,7 +73,7 @@ class GameController extends AbstractController
             return $this->redirectToRoute('list_game');
         }
 
-        return $this->render('game/index.html.twig', [
+        return $this->render('game/form.html.twig', [
             'form' => $form->createView(),
         ]);
     }

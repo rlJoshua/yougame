@@ -28,14 +28,14 @@ class EditorController extends AbstractController
     public function index()
     {
         $editorList = $this->editorRepository->findAll();
-        return $this->render('editor/list.html.twig', [
+        return $this->render('editor/index.html.twig', [
             'editorList' => $editorList,
         ]);
     }
 
     /**
      * @Route("/create_editor", name="create_editor")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="No access! Get out!")
      * @param Request $request
      * @return Response
      */
@@ -53,7 +53,7 @@ class EditorController extends AbstractController
             return $this->redirectToRoute('list_editor');
         }
 
-        return $this->render('editor/index.html.twig', [
+        return $this->render('editor/form.html.twig', [
             'form' => $form->createView(),
         ]);
      }
@@ -80,7 +80,7 @@ class EditorController extends AbstractController
 
     /**
      * @Route("/delete_editor/{id}", name="delete_editor")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="No access! Get out!")
      * @ParamConverter("editor", options={"mapping"={"id"="id"}})
      * @param Editor $editor
      * @return RedirectResponse

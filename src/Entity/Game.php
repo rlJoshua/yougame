@@ -27,7 +27,7 @@ class Game
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Platform")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Platform", inversedBy="games")
      * @ORM\JoinColumn(nullable=false)
      */
     private $platforms;
