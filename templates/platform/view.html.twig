@@ -7,13 +7,17 @@
     <div>
         <h1>{{platform.getName}}</h1>
         <br />
+        Jeux :
+        {% for game in platform.games %}
+            <li><a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
+        {% endfor %}
     </div>
     {% if is_granted("ROLE_ADMIN")%}
         <br />
         <br />
         <br />
         <br />
-        <h2>Modifier l'éditeur</h2>
+        <h2>Modifier la Plateforme</h2>
         {{ form(form) }}
     {% endif %}
 

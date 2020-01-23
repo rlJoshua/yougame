@@ -11,10 +11,9 @@
         <br />
         Jeux :
         {% for game in editor.games %}
-            <li>{{ game.getTitle }}</li>
+            <li><a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
         {% endfor %}
 
-     
     </div>
     {% if is_granted("ROLE_ADMIN")%}
         <br />
@@ -23,7 +22,7 @@
         <br />
         <h2>Modifier l'éditeur</h2>
         {{ form(form) }}
-        <a class="text-danger"href="{{ path("delete_editor", {id: editor.id })}}">Supprimer cet éditeur</a>
+        <a class="text-danger" href="{{ path("delete_editor", {id: editor.id })}}">Supprimer cet éditeur</a>
     {% endif %}
 
 

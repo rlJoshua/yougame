@@ -6,6 +6,7 @@ use App\Entity\Platform;
 use App\Form\PlatformType;
 use Doctrine\DBAL\Types\TextType;
 use App\Repository\PlatformRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,7 +36,7 @@ class PlatformController extends AbstractController
 
     /**
      * @Route("/create_platform", name="create_platform")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="No access! Get out!")
      * @param Request $request
      * @return Response
      */
@@ -63,7 +64,7 @@ class PlatformController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function show(int $id, Request $request){
+    public function showPlatform(int $id, Request $request){
         $platform = $this->platformRepository->find($id);
         $form = $this->createForm(PlatformType::class, $platform);
         $form->handleRequest($request);
@@ -80,7 +81,7 @@ class PlatformController extends AbstractController
 
     /**
      * @Route("/delete_platform/{id}", name="delete_platform")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="No access! Get out!")
      * @ParamConverter("platform", options={"mapping"={"id"="id"}})
      * @param Platform $platform
      * @return RedirectResponse
