@@ -17,6 +17,15 @@
         <br />
         Date de sortie : {{ game.releaseDate|date('d M Y') }}
         <br />
+        {% if app.user %}
+            {% if app.user in game.users %}
+                <a class="text-danger" href="{{ path("delete_favorites", {id: game.id })}}">Supprimer des favoris</a>
+            {% else %}
+                <a href="{{ path("add_favorites", {id: game.id })}}">Ajouter aux favoris</a>
+            {% endif %}
+        {% endif %}
+
+
     </div>
     {% if is_granted("ROLE_ADMIN")%}
         <br />

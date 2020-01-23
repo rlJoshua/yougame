@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -92,4 +93,38 @@ class GameController extends AbstractController
         return $this->redirectToRoute("list_game");
     }
 
+    /**
+     * @Route("/add_favorites/{id}", name="add_favorites")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function addFavorites(int $id){
+        $game = $this->gameRepository->find($id);
+        $user = $this->getUser();
+        $user->addFavorite($game);
+        $entityManger = $this->getDoctrine()->getManager();
+        $entityManger->persist($user);
+        $entityManger->flush();
+
+        return $this->redirectToRoute("show_game", ['id' => $id]);
+    }
+
+
+    /**
+     * @Route("/delete_favorites/{id}", name="delete_favorites")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function deleteFavorites(int $id){
+        $game = $this->gameRepository->find($id);
+        $user = $this->getUser();
+        $user->removeFavorite($game);
+        $entityManger = $this->getDoctrine()->getManager();
+        $entityManger->persist($user);
+        $entityManger->flush();
+
+        return $this->redirectToRoute("show_game", ['id' => $id]);
+    }
 }
