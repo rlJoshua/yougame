@@ -15,7 +15,7 @@ class PlatformType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Name', TextType::class, ["label" => "Nom de platform"])
+            ->add('name', TextType::class, ["label" => "Nom de platform"])
             ->add("submit", SubmitType::class)
         ;
     }

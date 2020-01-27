@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,11 +21,16 @@ class Editor
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Le nom de société ne peut être vide")
+     * @Assert\Length(max=100, maxMessage="Le nom de société est trop long")
      */
     private $society;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="La nationalité ne peut être vide")
+     * @Assert\Length(min=2, minMessage="La nationalité est trop court",
+     *     max=100, maxMessage="Le nom de société est trop long")
      */
     private $nationality;
 
