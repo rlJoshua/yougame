@@ -3,39 +3,60 @@
 {% block title %}YouGame - {{game.getTitle}}{% endblock %}
 
 {% block body %}
-
-    <div>
+    <div class="content">
         <h1>{{game.getTitle}}</h1>
-        <br />
-        Description : {{ game.description }}
-        <br />
-        Plateformes disponible :
-        {% for platform in game.platforms %}
-            {{ platform.getName }}
-        {% endfor %}
-
-        <br />
-        Date de sortie : {{ game.releaseDate|date('d M Y') }}
-        <br />
         {% if app.user %}
             {% if app.user in game.users %}
-                <a class="text-danger" href="{{ path("delete_favorites", {id: game.id })}}">Supprimer des favoris</a>
+                <a class="btn-del" href="{{ path("delete_favorites", {id: game.id })}}">Supprimer des favoris</a>
             {% else %}
-                <a href="{{ path("add_favorites", {id: game.id })}}">Ajouter aux favoris</a>
+                <a class="btn-add" href="{{ path("add_favorites", {id: game.id })}}">Ajouter aux favoris</a>
             {% endif %}
         {% endif %}
+        <div class="v-sub-title">
+            Date de sortie :&nbsp;<div class="v-release">{{ game.releaseDate|date('d M Y') }}</div>
+        </div>
+        <div class="v-sub-title">Description :</div>
+        <div class="v-desc">{{ game.description }}</div>
+        <div class="v-sub-title">
+            Plateformes disponible :&nbsp;
+            {% for key, platform in game.platforms %}
+                {% if game.platforms|length is same as(key+1) %}
+                    <div class="v-platform"> {{ platform.getName }}</div>
+                {% else %}
+                    <div class="v-platform">{{ platform.getName }}&nbsp;-&nbsp;</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="space"></div>
 
+        {% if is_granted("ROLE_ADMIN")%}
+            <h2>Modifier le Jeu</h2>
+            {{ form_start(form) }}
 
+            {{ form_label(form.title, "Titre", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.title) }}</div>
+
+            {{ form_label(form.platforms, "Plateformes de jeux", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.platforms, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.platforms) }}</div>
+
+            {{ form_label(form.description, "Description", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-input form-textarea '}}) }}
+            <div class="form-error">{{ form_errors(form.description) }}</div>
+
+            {{ form_label(form.releaseDate, "Date de sortie", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.releaseDate, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.releaseDate) }}</div>
+
+            {{ form_label(form.editor, "Editeur", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.editor, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.editor) }}</div>
+
+            {{ form_widget(form.submit, { 'label': 'Modifier', 'attr': {'class': 'btn-sub'} }) }}
+            {{ form_end(form) }}
+            <a class="btn-del" href="{{ path("delete_game", {id: game.id })}}">Supprimer le jeu</a>
+            <div class="space"></div>
+        {% endif %}
     </div>
-    {% if is_granted("ROLE_ADMIN")%}
-        <br />
-        <br />
-        <br />
-        <br />
-        <h2>Modifier le Jeu</h2>
-        {{ form(form) }}
-        <a class="text-danger" href="{{ path("delete_game", {id: game.id })}}">Supprimer le jeu</a>
-    {% endif %}
-
-
 {% endblock %}

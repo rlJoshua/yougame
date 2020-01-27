@@ -4,12 +4,19 @@
 
 {% block body %}
     {% if is_granted("ROLE_ADMIN") %}
-        <h1>Membres</h1>
-        {% for user in users %}
-            <li><a href="{{ path('show_user', {id: user.id }) }}">{{ user.getLastName }} {{ user.getFirstName }}</a>:
-                {{ user.getEmail }} - {{ user.getBirthDate|date('d F Y') }}</li>
-        {% endfor %}
-        <a href="{{ path('register') }}">Ajouter un Utilisateur</a>
+        <div class="content">
+            <h1>Membres</h1>
+            <ul class="ul-list">
+                {% for user in users %}
+                    <li class="li-list list-game">
+                        <a href="{{ path('show_user', {id: user.id }) }}">{{ user.getLastName }} {{ user.getFirstName }}</a>&nbsp;:&nbsp;
+                        {{ user.getEmail }} - {{ user.getBirthDate|date('d F Y') }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <a class="btn-add" href="{{ path('register') }}">Ajouter un Utilisateur</a>
+        </div>
+
     {% endif %}
 
 {% endblock %}

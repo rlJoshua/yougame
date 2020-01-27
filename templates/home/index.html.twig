@@ -3,18 +3,21 @@
 {% block title %}YouGame{% endblock %}
 
 {% block body %}
-    <h1>Accueil</h1>
+    <div class="content">
+        <h1>Accueil</h1>
 
-    <h3>Jeux disponible</h3>
-    <ul>
-        {% for game in games %}
-            <li>
-                <a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a> (
-                {% for platform in game.platforms %}
-                    {{ platform.getName }}
-                {% endfor %})
-                : {{ game.releaseDate|date('d M Y') }}
-            </li>
-        {% endfor %}
-    </ul>
+        <h3>Nos jeux</h3>
+        <ul>
+            {% for game in games %}
+                <li class="li-list list-game">
+                    <a class="game-link-title" href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a> (
+                    {% for platform in game.platforms %}
+                        {{ platform.getName }}
+                    {% endfor %})
+                    : {{ game.releaseDate|date('d M Y') }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
 {% endblock %}

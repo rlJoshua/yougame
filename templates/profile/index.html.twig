@@ -3,26 +3,42 @@
 {% block title %}YouGame - Profile{% endblock %}
 
 {% block body %}
-    <h1>Profil</h1>
-    <div>Nom : {{ user.getLastName }}</div>
-    <div>Prénom : {{ user.getFirstName }}</div>
-    <div>Date de Naissance : {{ user.getBirthDate|date("d/m/Y") }}</div>
-    <div>Adresse e-mail : {{ user.getEmail }}</div>
-    <div>Date d'inscription : {{ user.getCreatedAt|date("d/m/Y") }}</div>
-    <div>Favoris :
-        <br />
-        {% for game in user.getFavorites %}
-            <li><a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
-        {% endfor %}
+    <div class="content">
+        <h1>Profil</h1>
+        <div class="v-sub-title">Nom&nbsp;:&nbsp;<div class="v-content">{{ user.getLastName }}</div></div>
+        <div class="v-sub-title">Prénom&nbsp;:&nbsp;<div class="v-content">{{ user.getFirstName }}</div></div>
+        <div class="v-sub-title">Date de Naissance&nbsp;:&nbsp;<div class="v-content">{{ user.getBirthDate|date("d/m/Y") }}</div></div>
+        <div class="v-sub-title">Adresse e-mail&nbsp;:&nbsp;<div class="v-content">{{ user.getEmail }}</div></div>
+        <div class="v-sub-title">Date d'inscription&nbsp;:&nbsp;<div class="v-content">{{ user.getCreatedAt|date("d/m/Y") }}</div></div>
+        <div class="v-sub-title">Favoris :</div>
+        <ul class="ul-list">
+            {% for game in user.getFavorites %}
+                <li class="li-list"><a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <div class="space"></div>
+        <h1>Modifier le profil</h1>
+        {{  form_start(form) }}
+
+        {{ form_label(form.lastName, "Nom", {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.lastName, {'attr': {'class': 'form-input'}}) }}
+        <div class="form-error">{{ form_errors(form.lastName) }}</div>
+
+        {{ form_label(form.firstName, "Prénom", {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.firstName, {'attr': {'class': 'form-input'}}) }}
+        <div class="form-error">{{ form_errors(form.firstName) }}</div>
+
+        {{ form_label(form.birthDate, "Date de Naissance", {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.birthDate, {'attr': {'class': 'form-input'}}) }}
+        <div class="form-error">{{ form_errors(form.birthDate) }}</div>
+
+        {{ form_label(form.email, "Adresse e-mail", {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-input'}}) }}
+        <div class="form-error">{{ form_errors(form.email) }}</div>
+
+        {{ form_widget(form.submit, { 'label': 'Modifier', 'attr': {'class': 'btn-sub'} }) }}
+        {{ form_end(form) }}
+        <div class="space"></div>
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <h1>Modifier le profil</h1>
-    {{form(form)}}
-    <br />
-    <br />
-    <br />
-    <br />
+
 {% endblock %}

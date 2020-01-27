@@ -3,27 +3,25 @@
 {% block title %}YouGame - Connection{% endblock %}
 
 {% block body %}
-<form method="post">
+<form class="content" method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            Vous êtes connecté en tant que {{ app.user.lastName }} {{ app.user.firstName }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% else %}
-        <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
-        <label for="inputEmail">Adresse e-mail</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-        <label for="inputPassword">Mot de passe</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" required>
+        <h1>Connexion</h1>
+        <label class="form-label" for="inputEmail">Adresse e-mail</label>
+        <input class="form-input form-control" type="email" value="{{ last_username }}" name="email" id="inputEmail" required autofocus>
+        <label class="form-label" for="inputPassword">Mot de passe</label>
+        <input class=" form-input form-control" type="password" name="password" id="inputPassword" required>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-        <a href="{{ path('register') }}">S'inscrire</a>
+        <button class="btn-add" type="submit">Se connecter</button>
+        <a class="link" href="{{ path('register') }}">S'inscrire</a>
     {% endif %}
 
 

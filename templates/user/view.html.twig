@@ -3,25 +3,43 @@
 {% block title %}YouGame - {{ user.lastName }} {{ user.firstName }}{% endblock %}
 
 {% block body %}
-    <h1>{{ user.lastName }} {{ user.firstName }}</h1>
-    <div>Date de Naissance : {{ user.getBirthDate|date("d/m/Y") }}</div>
-    <div>Adresse e-mail : {{ user.getEmail }}</div>
-    <div>Date d'inscription : {{ user.getCreatedAt|date("d/m/Y") }}</div>
-    <div>Favoris :
-        <br />
-        {% for game in user.getFavorites %}
-            <li><a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
-        {% endfor %}
+    <div class="content">
+        <h1>{{ user.lastName }} {{ user.firstName }}</h1>
+        <div class="v-sub-title">Date de Naissance&nbsp;:&nbsp;<div class="v-content">{{ user.getBirthDate|date("d/m/Y") }}</div></div>
+        <div class="v-sub-title">Adresse e-mail&nbsp;:&nbsp;<div class="v-content">{{ user.getEmail }}</div></div>
+        <div class="v-sub-title">Date d'inscription&nbsp;:&nbsp;<div class="v-content">{{ user.getCreatedAt|date("d/m/Y") }}</div></div>
+        <div class="v-sub-title">Favoris :</div>
+        <ul class="ul-list">
+            {% for game in user.getFavorites %}
+                <li class="li-list list-game"><a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <div class="space"></div>
+        {% if is_granted("ROLE_ADMIN")%}
+            <h1>Modifier l'utlisateur</h1>
+            {{ form_start(form) }}
+
+            {{ form_label(form.lastName, "Nom", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.lastName, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.lastName) }}</div>
+
+            {{ form_label(form.firstName, "Prénom", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.firstName, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.firstName) }}</div>
+
+            {{ form_label(form.birthDate, "Date de Naissance", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.birthDate, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.birthDate) }}</div>
+
+            {{ form_label(form.email, "Adresse e-mail", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.email) }}</div>
+
+            {{ form_widget(form.submit, { 'label': 'Modifier', 'attr': {'class': 'btn-sub'} }) }}
+            {{ form_end(form) }}
+            <a class="btn-del" href="{{ path('delete_user', {id: user.id }) }}">Supprimer l'utilisateur</a>
+            <div class="space"></div>
+        {% endif %}
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <h1>Modifier l'utlisateur</h1>
-    {{form(form)}}
-    <a class="text-danger" href="{{ path('delete_user', {id: user.id }) }}">Supprimer l'utilisateur</a>
-    <br />
-    <br />
-    <br />
-    <br />
+
 {% endblock %}
