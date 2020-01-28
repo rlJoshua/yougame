@@ -12,11 +12,11 @@
                 <a class="btn-add" href="{{ path("add_favorites", {id: game.id })}}">Ajouter aux favoris</a>
             {% endif %}
         {% endif %}
+        <div class="v-sub-title">Description :</div>
+        <div class="v-desc">{{ game.description }}</div>
         <div class="v-sub-title">
             Date de sortie :&nbsp;<div class="v-release">{{ game.releaseDate|date('d M Y') }}</div>
         </div>
-        <div class="v-sub-title">Description :</div>
-        <div class="v-desc">{{ game.description }}</div>
         <div class="v-sub-title">
             Plateformes disponible :&nbsp;
             {% for key, platform in game.platforms %}

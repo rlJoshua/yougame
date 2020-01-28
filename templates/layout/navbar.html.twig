@@ -42,3 +42,9 @@
         </span>
     </div>
 </nav>
+{% for message in app.flashes('notification') %}
+    <div class="flash-notif">
+        {{ message }}
+    </div>
+{% endfor %}
+<div class="space-nav"></div>

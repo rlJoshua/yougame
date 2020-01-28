@@ -45,11 +45,12 @@ class EditorController extends AbstractController
         $form = $this->createForm(EditorType::class, $editor);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()){
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($editor);
-            $entityManager->flush();       
+            $entityManager->flush();
+            $society = $editor->getSociety();
+            $this->addFlash('notification', "L'editeur $society a bien été crée !");
             return $this->redirectToRoute('list_editor');
         }
 
@@ -71,6 +72,7 @@ class EditorController extends AbstractController
             $entityManger = $this->getDoctrine()->getManager();
             $entityManger->persist($editor);
             $entityManger->flush();
+            $this->addFlash('notification', "L'editeur a bien été modifié !");
         }
         return $this->render('editor/view.html.twig', [
             'editor' => $editor,
@@ -89,7 +91,8 @@ class EditorController extends AbstractController
         $entityManger = $this->getDoctrine()->getManager();
         $entityManger->remove($editor);
         $entityManger->flush();
-
+        $society = $editor->getSociety();
+        $this->addFlash('notification', "L'editeur $society a bien été supprimé !");
         return $this->redirectToRoute("list_editor");
     }
 

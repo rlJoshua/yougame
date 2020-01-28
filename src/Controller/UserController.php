@@ -62,8 +62,10 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             if (in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+                $this->addFlash('notification', "Inscription éffectuée !");
                 return $this->redirectToRoute('list_user');
             } else {
+                $this->addFlash('notification', "Inscription éffectuée ! Connectez-vous !");
                 return $this->redirectToRoute('app_login');
             }
         }
@@ -88,6 +90,7 @@ class UserController extends AbstractController
             $entityManger = $this->getDoctrine()->getManager();
             $entityManger->persist($user);
             $entityManger->flush();
+            $this->addFlash('notification', "L'utilisateur à bien été modifié !");
         }
         return $this->render('user/view.html.twig', [
             'user' => $user,
@@ -106,6 +109,9 @@ class UserController extends AbstractController
         $entityManger = $this->getDoctrine()->getManager();
         $entityManger->remove($user);
         $entityManger->flush();
+        $fname = $user->getFirstName();
+        $lname = $user->getLastName();
+        $this->addFlash('notification', "L'utilisateur $lname $fname a bien été supprimé.");
 
         return $this->redirectToRoute("list_user");
     }
