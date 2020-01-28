@@ -33,9 +33,8 @@ class Game
     private $platforms;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Assert\NotBlank(message="La decription ne peut pas être vide")
-     * @Assert\Length(max="255", maxMessage="La description est trop longue")
      */
     private $description;
 
