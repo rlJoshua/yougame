@@ -4,10 +4,12 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Event\UserRegisteredEvent;
 use App\Form\UserProfileType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Exception;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -17,15 +19,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UserController extends AbstractController
 {
 
     private $userRepository;
+    private $dispatcher;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, EventDispatcherInterface $dispatcher)
     {
         $this->userRepository = $userRepository;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -61,7 +66,8 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            if (in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+            $this->dispatcher->dispatch(new UserRegisteredEvent($user));
+            if ($this->getUser() && in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
                 $this->addFlash('notification', "Inscription éffectuée !");
                 return $this->redirectToRoute('list_user');
             } else {
