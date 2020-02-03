@@ -165,6 +165,12 @@ class User implements UserInterface
         return $this->role;
     }
 
+    public function setRole(array $role): void
+    {
+        $this->role = $role;
+    }
+
+
     public function getSalt()
     {
         return null;

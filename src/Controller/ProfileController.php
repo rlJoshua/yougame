@@ -34,6 +34,7 @@ class ProfileController extends AbstractController
             $entityManger = $this->getDoctrine()->getManager();
             $entityManger->persist($user);
             $entityManger->flush();
+            $this->addFlash('notification', "Le profil a bien été modifié !");
         }
         return $this->render('profile/index.html.twig', [
             'user' => $user,

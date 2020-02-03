@@ -3,7 +3,7 @@
 
  Projet Symfony sur les jeux vidéos
 
- 	Le projet a été réalisé par Josué Ruffinel & Ryan Daoud. 
+ 	Le projet a été réalisé par Josué Ruffinel & Ryan Daoud.
 
  	Pour faire fonctionner le projet, il faut créer une base de donnée local nommé "yougame".
  	

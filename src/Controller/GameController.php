@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
-use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -48,6 +47,7 @@ class GameController extends AbstractController
             $entityManger = $this->getDoctrine()->getManager();
             $entityManger->persist($game);
             $entityManger->flush();
+            $this->addFlash('notification', "Le jeu a bien été modifié !");
         }
         return $this->render('game/view.html.twig', [
             'game' => $game,
@@ -70,6 +70,8 @@ class GameController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
             $entityManager->flush();
+            $title = $game->getTitle();
+            $this->addFlash('notification', "Le jeu $title a bien été crée !");
             return $this->redirectToRoute('list_game');
         }
 
@@ -89,7 +91,8 @@ class GameController extends AbstractController
         $entityManger = $this->getDoctrine()->getManager();
         $entityManger->remove($game);
         $entityManger->flush();
-
+        $title = $game->getTitle();
+        $this->addFlash('notification', "Le jeu $title a bien été supprimé !");
         return $this->redirectToRoute("list_game");
     }
 
@@ -106,7 +109,7 @@ class GameController extends AbstractController
         $entityManger = $this->getDoctrine()->getManager();
         $entityManger->persist($user);
         $entityManger->flush();
-
+        $this->addFlash('notification', "Ajouté aux favoris !");
         return $this->redirectToRoute("show_game", ['id' => $id]);
     }
 
@@ -124,7 +127,7 @@ class GameController extends AbstractController
         $entityManger = $this->getDoctrine()->getManager();
         $entityManger->persist($user);
         $entityManger->flush();
-
+        $this->addFlash('notification', "Supprimé des favoris !");
         return $this->redirectToRoute("show_game", ['id' => $id]);
     }
 }

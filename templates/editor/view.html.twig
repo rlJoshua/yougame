@@ -3,27 +3,32 @@
 {% block title %}YouGame - {{editor.getSociety}}{% endblock %}
 
 {% block body %}
+    <div class="content">
+        {% if is_granted("ROLE_ADMIN")%}
+            <h1>{{editor.getSociety}}</h1>
+            <div class="v-sub-title">Nationalité : {{ editor.nationality }}</div>
+            <div class="v-sub-title">Jeux de l'éditeur :&nbsp;</div>
+            {% for game in editor.games %}
+                <li class="li-list"><a class="a-list" href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
+            {% endfor %}
+            <div class="space"></div>
 
-    <div>
-        <h1>{{editor.getSociety}}</h1>
-        <br />
-        Location : {{ editor.nationality }}
-        <br />
-        Jeux :
-        {% for game in editor.games %}
-            <li><a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
-        {% endfor %}
+            <h2>Modifier l'éditeur</h2>
+            {{ form_start(form) }}
 
+            {{ form_label(form.society, "Société", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.society, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.society) }}</div>
+
+            {{ form_label(form.nationality, "Nationalité", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nationality, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.nationality) }}</div>
+
+            {{ form_widget(form.submit, { 'label': 'Modifier', 'attr': {'class': 'btn-sub'} }) }}
+            {{ form_end(form) }}
+            <a class="btn-del" href="{{ path("delete_editor", {id: editor.id })}}">Supprimer cet éditeur</a>
+            <div class="space"></div>
+        {% endif %}
     </div>
-    {% if is_granted("ROLE_ADMIN")%}
-        <br />
-        <br />
-        <br />
-        <br />
-        <h2>Modifier l'éditeur</h2>
-        {{ form(form) }}
-        <a class="text-danger" href="{{ path("delete_editor", {id: editor.id })}}">Supprimer cet éditeur</a>
-    {% endif %}
-
 
 {% endblock %}

@@ -3,6 +3,16 @@
 {% block title %}YouGame - Platform{% endblock %}
 
 {% block body %}
-    {{ form(form) }}
+    <div class="content">
+        <h1>Ajouter une nouvelle Plateforme</h1>
+        {{ form_start(form) }}
+
+        {{ form_label(form.name, "Nom de la plateforme", {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-input'}}) }}
+        <div class="form-error">{{ form_errors(form.name) }}</div>
+
+        {{ form_widget(form.submit, { 'label': 'Créer', 'attr': {'class': 'btn-sub'} }) }}
+        {{ form_end(form) }}
+    </div>
 
 {% endblock %}

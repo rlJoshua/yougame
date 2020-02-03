@@ -3,8 +3,33 @@
 {% block title %}YouGame - Game{% endblock %}
 
 {% block body %}
-    {% if is_granted("ROLE_ADMIN") %}
-        {{ form(form) }}
-    {% endif %}
+    <div class="content">
+        {% if is_granted("ROLE_ADMIN") %}
+            <h2>Ajouter un nouveau Jeu</h2>
+            {{ form_start(form) }}
 
+            {{ form_label(form.title, "Titre", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.title) }}</div>
+
+            {{ form_label(form.platforms, "Plateformes de jeux", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.platforms, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.platforms) }}</div>
+
+            {{ form_label(form.description, "Description", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-input form-textarea '}}) }}
+            <div class="form-error">{{ form_errors(form.description) }}</div>
+
+            {{ form_label(form.releaseDate, "Date de sortie", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.releaseDate, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.releaseDate) }}</div>
+
+            {{ form_label(form.editor, "Editeur", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.editor, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.editor) }}</div>
+
+            {{ form_widget(form.submit, { 'label': 'Créer', 'attr': {'class': 'btn-sub'} }) }}
+            {{ form_end(form) }}
+        {% endif %}
+    </div>
 {% endblock %}

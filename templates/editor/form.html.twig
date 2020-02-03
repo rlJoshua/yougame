@@ -3,6 +3,21 @@
 {% block title %}YouGame - Editor{% endblock %}
 
 {% block body %}
-{{ form(form) }}
+    <div class="content">
+        {% if is_granted("ROLE_ADMIN") %}
+            <h2>Ajouter un nouvel éditeur</h2>
+            {{ form_start(form) }}
 
+            {{ form_label(form.society, "Société", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.society, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.society) }}</div>
+
+            {{ form_label(form.nationality, "Nationalité", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nationality, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.nationality) }}</div>
+
+            {{ form_widget(form.submit, { 'label': 'Créer', 'attr': {'class': 'btn-sub'} }) }}
+            {{ form_end(form) }}
+        {% endif %}
+    </div>
 {% endblock %}

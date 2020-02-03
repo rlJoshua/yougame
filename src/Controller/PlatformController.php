@@ -50,9 +50,10 @@ class PlatformController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($platform);
             $entityManager->flush();
+            $name = $platform->getName();
+            $this->addFlash('notification', "Plateform $name a bien été créee !");
             return $this->redirectToRoute('list_platform');
         }
-
         return $this->render('platform/form.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -90,7 +91,8 @@ class PlatformController extends AbstractController
         $entityManger = $this->getDoctrine()->getManager();
         $entityManger->remove($platform);
         $entityManger->flush();
-
+        $name = $platform->getName();
+        $this->addFlash('notification', "L'utilisateur $name a bien été supprimé.");
         return $this->redirectToRoute("list_platform");
     }
 

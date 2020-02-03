@@ -3,23 +3,28 @@
 {% block title %}YouGame - {{platform.getName}}{% endblock %}
 
 {% block body %}
-
-    <div>
+    <div class="content">
         <h1>{{platform.getName}}</h1>
-        <br />
-        Jeux :
-        {% for game in platform.games %}
-            <li><a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
-        {% endfor %}
-    </div>
-    {% if is_granted("ROLE_ADMIN")%}
-        <br />
-        <br />
-        <br />
-        <br />
-        <h2>Modifier la Plateforme</h2>
-        {{ form(form) }}
-    {% endif %}
+        <div class="v-sub-title">Jeux :</div>
+        <ul class="ul-list">
+            {% for game in platform.games %}
+                <li class="li-list"><a href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <div class="space"></div>
+        {% if is_granted("ROLE_ADMIN")%}
+            <h2>Modifier la Plateforme</h2>
+            {{ form_start(form) }}
 
-    <a class="text-danger" href="{{ path("delete_platform", {id: platform.id })}}">Supprimer la plateforme </a>
+            {{ form_label(form.name, "Nom de la plateforme", {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-input'}}) }}
+            <div class="form-error">{{ form_errors(form.name) }}</div>
+
+            {{ form_widget(form.submit, { 'label': 'Modifier', 'attr': {'class': 'btn-sub'} }) }}
+            {{ form_end(form) }}
+        {% endif %}
+        <a class="btn-del" href="{{ path("delete_platform", {id: platform.id })}}">Supprimer la plateforme </a>
+        <div class="space"></div>
+    </div>
+
 {% endblock %}
