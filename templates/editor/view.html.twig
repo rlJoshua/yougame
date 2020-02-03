@@ -4,15 +4,15 @@
 
 {% block body %}
     <div class="content">
-        <h1>{{editor.getSociety}}</h1>
-        <div class="v-sub-title">Nationalité : {{ editor.nationality }}</div>
-        <div class="v-sub-title">Jeux de l'éditeur :&nbsp;</div>
-        {% for game in editor.games %}
-            <li class="li-list"><a class="a-list" href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
-        {% endfor %}
-        <div class="space"></div>
-
         {% if is_granted("ROLE_ADMIN")%}
+            <h1>{{editor.getSociety}}</h1>
+            <div class="v-sub-title">Nationalité : {{ editor.nationality }}</div>
+            <div class="v-sub-title">Jeux de l'éditeur :&nbsp;</div>
+            {% for game in editor.games %}
+                <li class="li-list"><a class="a-list" href="{{ path("show_game", {id: game.id })}}">{{ game.title }}</a></li>
+            {% endfor %}
+            <div class="space"></div>
+
             <h2>Modifier l'éditeur</h2>
             {{ form_start(form) }}
 

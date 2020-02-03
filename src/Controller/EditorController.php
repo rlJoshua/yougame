@@ -19,11 +19,14 @@ class EditorController extends AbstractController
 {
     private $editorRepository;
 
-    public function __construct(EditorRepository $editorRepository){
+    public function __construct(EditorRepository $editorRepository)
+    {
         $this->editorRepository = $editorRepository;
     }
+
     /**
      * @Route("/list_editor", name="list_editor")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="No access! Get out!")
      */
     public function index()
     {
@@ -39,13 +42,14 @@ class EditorController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function createEditor(Request $request): Response{
+    public function createEditor(Request $request): Response
+    {
 
         $editor = new Editor();
         $form = $this->createForm(EditorType::class, $editor);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($editor);
             $entityManager->flush();
@@ -57,18 +61,21 @@ class EditorController extends AbstractController
         return $this->render('editor/form.html.twig', [
             'form' => $form->createView(),
         ]);
-     }
-      /**
+    }
+
+    /**
      * @Route("/editor/{id}", name="show_editor")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="No access! Get out!")
      * @param int $id
      * @param Request $request
      * @return Response
      */
-    public function showEditor(int $id, Request $request){
+    public function showEditor(int $id, Request $request)
+    {
         $editor = $this->editorRepository->find($id);
         $form = $this->createForm(EditorType::class, $editor);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManger = $this->getDoctrine()->getManager();
             $entityManger->persist($editor);
             $entityManger->flush();
@@ -87,7 +94,8 @@ class EditorController extends AbstractController
      * @param Editor $editor
      * @return RedirectResponse
      */
-    public function deleteEditor(Editor $editor){
+    public function deleteEditor(Editor $editor)
+    {
         $entityManger = $this->getDoctrine()->getManager();
         $entityManger->remove($editor);
         $entityManger->flush();
@@ -96,7 +104,5 @@ class EditorController extends AbstractController
         return $this->redirectToRoute("list_editor");
     }
 
-
-     
 
 }

@@ -27,6 +27,14 @@
                 {% endif %}
             {% endfor %}
         </div>
+
+        <div class="v-sub-title">
+            {% if is_granted("ROLE_ADMIN")%}
+                Éditeur :&nbsp;<a href="{{ path("show_editor", {id: game.editor.id })}}">{{ game.editor.society}}</a>
+            {% else %}
+                Éditeur : {{ game.editor.society }}
+            {% endif %}
+        </div>
         <div class="space"></div>
 
         {% if is_granted("ROLE_ADMIN")%}

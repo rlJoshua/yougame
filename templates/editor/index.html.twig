@@ -4,15 +4,15 @@
 
 {% block body %}
     <div class="content">
-        <h1>Éditeur</h1>
-        <ul class="ul-list">
-            {% for editor in editorList %}
-                <li class="li-list list-game">
-                    <a href="{{ path("show_editor", {id: editor.id })}}">{{ editor.society }}</a> - {{ editor.nationality }}
-                </li>
-            {% endfor %}
-        </ul>
         {% if is_granted("ROLE_ADMIN") %}
+            <h1>Éditeur</h1>
+            <ul class="ul-list">
+                {% for editor in editorList %}
+                    <li class="li-list list-game">
+                        <a href="{{ path("show_editor", {id: editor.id })}}">{{ editor.society }}</a> - {{ editor.nationality }}
+                    </li>
+                {% endfor %}
+            </ul>
             <a class="btn-link" href="{{ path('create_editor') }}">Créer un nouvel éditeur</a>
         {% endif %}
     </div>

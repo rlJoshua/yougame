@@ -78,7 +78,7 @@ class UserController extends AbstractController
         return $this->render('user/form.html.twig', [
             "form" => $form->createView(),
         ]);
-    }
+    } 
 
 
     /**
@@ -111,7 +111,7 @@ class UserController extends AbstractController
      * @param User $user
      * @return RedirectResponse
      */
-    public function deleteGame(User $user){
+    public function deleteUser(User $user){
         $entityManger = $this->getDoctrine()->getManager();
         $entityManger->remove($user);
         $entityManger->flush();
