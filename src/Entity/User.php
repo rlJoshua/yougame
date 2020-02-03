@@ -45,7 +45,7 @@ class User implements UserInterface
     private $birthDate;
 
     /**
-     * @ORM\Column(type="string", length=150, unique=true)
+     * @ORM\Column(type="string", length=150, unique=true, nullable=true)
      * @Assert\NotBlank(message="L'adresse e-mail ne peut être vide")
      * @Assert\Email(message="L'adresse e-mail doit être valide")
      * @Assert\Length(min=5, minMessage="L'adresse e-mail est trop court",
@@ -79,6 +79,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->role = ["ROLE_USER"];
+        $this->createdAt = new \DateTime();
         $this->favorites = new ArrayCollection();
     }
 
